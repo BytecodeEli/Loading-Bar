@@ -2,7 +2,7 @@
 Author: TheOriginalBIT
 Version: 1.0
 Created: 03 Jan 2013
-Last Update: 09 Jan 2013
+Last Update: 11 Jan 2013
 
 License:
 
@@ -28,8 +28,11 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEAL
 local sizeX, sizeY = term.getSize()
 
 local logo = nil
+local overlay = nil
 local width = nil
 local logoIsLoad = false
+local hasOverlay = false
+local loadColor = nil
 local yPos = nil
 local message = nil
 local header = nil
@@ -37,13 +40,30 @@ local footer = nil
 local currEventCount = 0
 local totalEventCount = nil
 
-function init( tLogo, count, isLoad, yPos, openingMsg, headMsg, footMsg )
+function initLogoLoad( tLogo, count, loadCol, openingMsg, headMsg, footMsg )
 	logo = type( tLogo ) == "table" and tLogo or {}
-	width = tLogo[1] ~= nil and #tLogo[1] or sizeX - 4
-	logoIsLoad = isLoad == true
-	yPos = logoIsLoad and math.ceil( sizeY / 2 - #logo / 2 ) or yPos
+	width = tLogo[1] ~= nil and #tLogo[1] or 20
+	logoIsLoad = true
+	loadColor = loadCol
+	yPos = math.ceil( sizeY / 2 - #logo / 2 )
 	message = openingMsg
-	showDetail = detail == true
+	header = headMsg
+	footer = footMsg
+	totalEventCount = count
+end
+
+function initLogoAsOverlayLoad( tLogo, count, openingMsg, headMsg, footMsg )
+	initLogoLoad( tLogo, count, colors.white, openingMsg, headMsg, footMsg )
+	hasOverlay = true
+end
+
+function initBarLoad( tLogo, count, barWidth, y, loadCol, openingMsg, headMsg, footMsg )
+	logo = type( tLogo ) == "table" and tLogo or {}
+	width = barWidth and barWidth or 20
+	logoIsLoad = false
+	loadColor = loadCol
+	yPos = y
+	message = openingMsg
 	header = headMsg
 	footer = footMsg
 	totalEventCount = count
@@ -52,11 +72,16 @@ end
 function triggerUpdate( msg )
 	currEventCount = currEventCount + 1
 	if msg and msg:len() ~= 0 then message = msg end
-	os.queueEvent( "loader_update" )
+	os.queueEvent( "load_update" )
+end
+
+function forceStop()
+	currEventCount = totalEventCount
 end
 
 function setMessage( msg )
 	message = msg
+	os.queueEvent( "load_update" )
 end
 
 local function hexLookup( char )
@@ -71,29 +96,49 @@ local function clearScreen( color )
 end
 
 local function drawScreen()
-	if showDetail then
-		term.setBackgroundColor( colors.white )
-		term.setTextColor( colors.black )
-		term.setCursorPos( math.ceil( sizeX / 2 ) - math.ceil( string.len( "Made by kornichen" ) / 2 ), sizeY )
-		write("Made by kornichen")
-		term.setCursorPos( math.ceil( sizeX / 2 ) - math.ceil( string.len( detailText ) / 2 ), 1 )
-		write(detailText)
-	end
+	term.setBackgroundColor( colors.white )
+	term.setTextColor( colors.black )
+	term.setCursorPos( math.ceil( sizeX / 2 ) - math.ceil( string.len( header ) / 2 ), 1 )
+	write( header )
+	term.setCursorPos( math.ceil( sizeX / 2 ) - math.ceil( string.len( footer ) / 2 ), sizeY )
+	write( footer )
 	
 	for row = 1, #logo do
 		for col = 1, logo[row]:len() do
-			term.setCursorPos( math.ceil( sizeX / 2 - #logo[1] / 2 ) + col, math.ceil( sizeY / 2 - #logo / 2 ) + row )
-			char = logo[row]:sub( col, col )
+			term.setCursorPos( math.ceil( sizeX / 2 - #logo[1] / 2 ) + col, logoIsLoad and yPos + row or (math.ceil( sizeY / 2 - #logo / 2 ) + row) - 2  )
+			local char = logo[row]:sub( col, col )
 			if char ~= " " then
-				if col > ( ( currEventCount / totalEventCount ) * logo[1]:len() + ( currEventCount == 0 and currEventCount or 1 ) ) then
-					term.setBackgroundColor( hexLookup( char ) )
+				if not logoIsLoad or col > ( ( currEventCount / totalEventCount ) * logo[1]:len() + ( currEventCount == 0 and currEventCount or 1 ) ) then
+					if not hasOverlay then
+						term.setBackgroundColor( hexLookup( char ) )
+					else
+						term.setBackgroundColor( colors.lightGray )
+					end
 				else
-					term.setBackgroundColor( 9 )
+					if not hasOverlay then
+						term.setBackgroundColor( loadColor )
+					else
+						term.setBackgroundColor( hexLookup( char ) )
+					end
 				end
 				write(" ")
 			end
 		end
 		print()
+	end
+	
+	if not logoIsLoad then
+		for i = 1, width do
+			term.setCursorPos( (sizeX - width) / 2 + i, yPos)
+			
+			if i < (( currEventCount / totalEventCount ) * width + 1) then
+				term.setBackgroundColor( loadColor )
+			else
+				term.setBackgroundColor( colors.gray )
+			end
+			
+			write(" ")
+		end
 	end
 	
 	if message then
@@ -114,7 +159,7 @@ function run()
 	while true do
 		if currEventCount == totalEventCount then return true end
 		
-		event = { os.pullEventRaw() }
+		event = { os.pullEventRaw( "load_update" ) }
 		
 		drawScreen()
 	end
