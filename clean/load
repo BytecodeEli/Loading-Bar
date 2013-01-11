@@ -61,7 +61,7 @@ end
 
 function initBarLoad( tLogo, count, barWidth, y, loadCol, openingMsg, headMsg, footMsg )
 	logo = type( tLogo ) == "table" and tLogo or {}
-	width = barWidth and barWidth or 20
+	width = barWidth or 20
 	logoIsLoad = false
 	loadColor = loadCol
 	yPos = y
@@ -73,7 +73,7 @@ end
 
 function initBarForAscii( tLogo, count, barWidth, y, openingMsg, headMsg, footMsg, loadCol )
 	logo = type( tLogo ) == "table" and tLogo or {}
-	width = barWidth and barWidth or 20
+	width = barWidth or 20
 	yPos = ( y + 1 > sizeY and (y - 1) < 1) and sizeY - 4 or y
 	message = openingMsg
 	header = headMsg
