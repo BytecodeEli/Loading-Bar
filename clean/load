@@ -1,6 +1,6 @@
 --[[
 Author: TheOriginalBIT
-Version: 2.0.2
+Version: 2.0.3
 Created: 03 Jan 2013
 Last Update: 13 Jan 2013
 
@@ -175,8 +175,8 @@ local function isValidParams( mode, tLogo, count, barWidth, y, loadCol, openingM
 			return false, "Logo must be table, got "..type( tLogo )
 		elseif type( count ) ~= "number" then
 			return false, "Event count must be a number, got "..type( count )
-		elseif type( barWidth ) ~= "nil" then
-			return false, "Bar width must be a nil, got "..type( barWidth )
+		elseif type( barWidth ) ~= "number" then
+			return false, "Bar width must be a number, got "..type( barWidth )
 		elseif type( y ) ~= "number" then
 			return false, "Y position must be a number, got "..type( y )
 		elseif type( loadCol ) ~= "nil" then
