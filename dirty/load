@@ -1,6 +1,6 @@
 --[[
 Author: TheOriginalBIT
-Version: 2.0.1
+Version: 2.0.2
 Created: 03 Jan 2013
 Last Update: 13 Jan 2013
 
@@ -420,21 +420,25 @@ end
 --[[ OBJECT FUNCTIONS ]]--
 
 function load.reset( self )
+	if not self.data then error( "Object does not exist", 2 ) end
 	self.data.currentEventCount = 0
 end
 
 function load.forceStop( self )
+	if not self.data then error( "Object does not exist", 2 ) end
 	self.data.currentEventCount = self.data.totalEventCount
 	os.queueEvent( "load_update_"..self.id )
 end
 
 function load.triggerUpdate( self, msg )
+	if not self.data then error( "Object does not exist", 2 ) end
 	self.data.currentEventCount = self.data.currentEventCount + 1
 	if msg and msg:len() ~= 0 then self.data.progressMessage = msg end
 	os.queueEvent( "load_update_"..self.id )
 end
 
 function load.removeMessage( self )
+	if not self.data then error( "Object does not exist", 2 ) end
 	self.data.progressMessage = ""
 	os.queueEvent( "load_update_"..self.id )
 end
@@ -446,7 +450,7 @@ function load.forceDraw( self )
 end
 
 function load.run( self, cleanup )
-	if not self then error( "Load object is not initialized.", 2 ) end
+	if not self.data then error( "Object is not initialized", 2 ) end
 	
 	if self.mode ~= BAR_ONLY and self.mode ~= ASCII_BAR_ONLY then
 		clearScreen( colors.white )
