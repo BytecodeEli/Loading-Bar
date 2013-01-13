@@ -92,7 +92,7 @@ local function isValidParams( mode, tLogo, count, barWidth, y, loadCol, openingM
 		elseif type( y ) ~= "number" then
 			return false, "Y position must be a number, got "..type( y )
 		elseif type( loadCol ) ~= "number" then
-			return false, "Load bar color must be a number, got "..type( y )
+			return false, "Load bar color must be a number, got "..type( loadCol )
 		elseif type( loadCol ) == "number" and ( ( loadCol < 1 ) or ( loadCol > ( 2^16 ) - 1 ) ) then
 			return false, "Invalid load bar color, must be in range 1-65535, got "..loadCol
 		elseif type( openingMsg ) ~= "string" and type( openingMsg ) ~= "nil" then
@@ -114,7 +114,7 @@ local function isValidParams( mode, tLogo, count, barWidth, y, loadCol, openingM
 		elseif type( y ) ~= "number" then
 			return false, "Y position must be a number, got "..type( y )
 		elseif type( loadCol ) ~= "number" then
-			return false, "Load bar color must be a number, got "..type( y )
+			return false, "Load bar color must be a number, got "..type( loadCol )
 		elseif type( loadCol ) == "number" and ( ( loadCol < 1 ) or ( loadCol > ( 2^16 ) - 1 ) ) then
 			return false, "Invalid load bar color, must be in range 1-65535, got "..loadCol
 		elseif type( openingMsg ) ~= "string" and type( openingMsg ) ~= "nil" then
@@ -136,7 +136,7 @@ local function isValidParams( mode, tLogo, count, barWidth, y, loadCol, openingM
 		elseif type( y ) ~= "number" then
 			return false, "Y position must be a number, got "..type( y )
 		elseif type( loadCol ) ~= "nil" then
-			return false, "Load bar color must be nil, got "..type( y )
+			return false, "Load bar color must be nil, got "..type( loadCol )
 		elseif type( loadCol ) == "number" and ( ( loadCol < 1 ) or ( loadCol > ( 2^16 ) - 1 ) ) then
 			return false, "Invalid load bar color, must be in range 1-65535, got "..loadCol
 		elseif type( openingMsg ) ~= "string" and type( openingMsg ) ~= "nil" then
@@ -158,7 +158,7 @@ local function isValidParams( mode, tLogo, count, barWidth, y, loadCol, openingM
 		elseif type( y ) ~= "number" then
 			return false, "Y position must be a number, got "..type( y )
 		elseif type( loadCol ) ~= "number" then
-			return false, "Load bar color must be a number, got "..type( y )
+			return false, "Load bar color must be a number, got "..type( loadCol )
 		elseif type( loadCol ) == "number" and ( ( loadCol < 1 ) or ( loadCol > ( 2^16 ) - 1 ) ) then
 			return false, "Invalid load bar color, must be in range 1-65535, got "..loadCol
 		elseif type( openingMsg ) ~= "string" and type( openingMsg ) ~= "nil" then
@@ -180,7 +180,7 @@ local function isValidParams( mode, tLogo, count, barWidth, y, loadCol, openingM
 		elseif type( y ) ~= "number" then
 			return false, "Y position must be a number, got "..type( y )
 		elseif type( loadCol ) ~= "nil" then
-			return false, "Load bar color must be a nil, got "..type( y )
+			return false, "Load bar color must be a nil, got "..type( loadCol )
 		elseif type( loadCol ) == "number" and ( ( loadCol < 1 ) or ( loadCol > ( 2^16 ) - 1 ) ) then
 			return false, "Invalid load bar color, must be in range 1-65535, got "..loadCol
 		elseif type( openingMsg ) ~= "string" and type( openingMsg ) ~= "nil" then
