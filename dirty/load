@@ -1,6 +1,6 @@
 --[[
 Author: TheOriginalBIT
-Version: 2.0
+Version: 2.0.1
 Created: 03 Jan 2013
 Last Update: 13 Jan 2013
 
@@ -357,6 +357,7 @@ load = {}
 
 load.__index = load
 load.__tostring = function( self ) return apiIdentifier end
+load.__gc = function( self ) usedIds[ self.id ] = nil self.data.logo = nil self.data = nil self = nil end
 
 --[[ GETTERS ]]--
 
@@ -375,7 +376,8 @@ end
 --[[ SETTERS ]]--
 
 function load.setMessage( self, msg )
-	self.data.message = msg
+	if not self.data then error( "Object does not exist", 2 ) end
+	self.data.progressMessage = msg
 	os.queueEvent( "load_update_"..self.id )
 end
 

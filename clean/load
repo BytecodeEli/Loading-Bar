@@ -1,6 +1,6 @@
 --[[
 Author: TheOriginalBIT
-Version: 2.0
+Version: 2.0.1
 Created: 03 Jan 2013
 Last Update: 13 Jan 2013
 
@@ -375,7 +375,7 @@ end
 --[[ SETTERS ]]--
 
 function load.setMessage( self, msg )
-	self.data.message = msg
+	self.data.progressMessage = msg
 	os.queueEvent( "load_update_"..self.id )
 end
 
@@ -479,3 +479,7 @@ ASCII_BAR_ONLY		= 3		-- Progress bar only - in ascii
 LOGO_IS_LOAD		= 4		-- Load screen with logo and text - no bar, logo is progress indicator
 LOGO_IS_OVERLAY		= 5		-- Load screen with logo and text - no bar, logo is progress indicator ( initially greyed out )
 ASCII				= 6		-- Load screen with logo, text and bar - in ascii
+
+
+
+
