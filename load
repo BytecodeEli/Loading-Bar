@@ -1,8 +1,8 @@
 --[[
 Author: TheOriginalBIT
-Version: 2.0.3
+Version: 2.0.4
 Created: 03 Jan 2013
-Last Update: 13 Jan 2013
+Last Update: 17 Feb 2013
 
 License:
 
@@ -157,8 +157,10 @@ local function isValidParams( mode, tLogo, count, barWidth, y, loadCol, openingM
 			return false, "Bar width must be a nil, got "..type( barWidth )
 		elseif type( y ) ~= "number" then
 			return false, "Y position must be a number, got "..type( y )
-		elseif type( loadCol ) ~= "number" then
+		elseif mode == LOGO_IS_LOAD and type( loadCol ) ~= "number" then
 			return false, "Load bar color must be a number, got "..type( loadCol )
+		elseif mode == LOGO_IS_OVERLAY and type( loadCol ) ~= "nil" then
+			return false, "Load bar color must be nil, got "..type( loadCol )
 		elseif type( loadCol ) == "number" and ( ( loadCol < 1 ) or ( loadCol > ( 2^16 ) - 1 ) ) then
 			return false, "Invalid load bar color, must be in range 1-65535, got "..loadCol
 		elseif type( openingMsg ) ~= "string" and type( openingMsg ) ~= "nil" then
