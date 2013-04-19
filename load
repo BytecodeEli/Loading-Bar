@@ -464,8 +464,8 @@ function load.run( self, cleanup )
 		drawScreen( self )
 	end
 
-	while true do
-		if self.data.currentEventCount == self.data.totalEventCount then break end
+	while self.data.currentEventCount ~= self.data.totalEventCount do
+		sizeX, sizeY = term.getSize() -- refresh the size in case of a monitor resize
 		
 		event = { os.pullEventRaw( "load_update_"..self.id ) }
 		
@@ -481,12 +481,12 @@ function load.run( self, cleanup )
 	if cleanup == true then self:dealloc() end
 end
 
-STANDARD			= 1		-- Load screen with logo, text and bar 
-BAR_ONLY			= 2		-- Progress bar only
-ASCII_BAR_ONLY		= 3		-- Progress bar only - in ascii
+STANDARD				= 1		-- Load screen with logo, text and bar 
+BAR_ONLY				= 2		-- Progress bar only
+ASCII_BAR_ONLY	= 3		-- Progress bar only - in ascii
 LOGO_IS_LOAD		= 4		-- Load screen with logo and text - no bar, logo is progress indicator
-LOGO_IS_OVERLAY		= 5		-- Load screen with logo and text - no bar, logo is progress indicator ( initially greyed out )
-ASCII				= 6		-- Load screen with logo, text and bar - in ascii
+LOGO_IS_OVERLAY	= 5		-- Load screen with logo and text - no bar, logo is progress indicator ( initially greyed out )
+ASCII						= 6		-- Load screen with logo, text and bar - in ascii
 
 
 
